@@ -1,0 +1,46 @@
+<QuestionSet name="Beginner">
+	<Question>
+		<Type>MultipleChoice</Type>
+		<Text>Evaluate 2 x 3.</Text>
+		<Choices>
+			<Choice>
+				<Point>0</Point>
+				<Text>2</Text>
+			</Choice>
+			<Choice>
+				<Point>0</Point>
+				<Text>4</Text>
+			</Choice>
+			<Choice>
+				<Point>1</Point>
+				<Text>6</Text>
+			</Choice>
+			<Choice>
+				<Point>0</Point>
+				<Text>8</Text>
+			</Choice>
+		</Choices>
+	</Question>
+	<Question>
+		<Type>MultipleChoice</Type>
+		<Text>Evaluate 2 x 1.</Text>
+		<Choices>
+			<Choice>
+				<Point>1</Point>
+				<Text>2</Text>
+			</Choice>
+			<Choice>
+				<Point>0</Point>
+				<Text>4</Text>
+			</Choice>
+			<Choice>
+				<Point>0</Point>
+				<Text>6</Text>
+			</Choice>
+			<Choice>
+				<Point>0</Point>
+				<Text>8</Text>
+			</Choice>
+		</Choices>
+	</Question>
+</QuestionSet>
