@@ -1,46 +1,48 @@
-<QuestionSet name="Beginner">
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<PropertyList>
 	<Question>
-		<Type>MultipleChoice</Type>
-		<Text>Evaluate 2 x 3.</Text>
+		<Type type="string">MultipleChoice</Type>
+		<Text type="string">Evaluate 2 x 3.</Text>
 		<Choices>
 			<Choice>
-				<Point>0</Point>
-				<Text>2</Text>
+				<Point type="float">0</Point>
+				<Text type="string">2</Text>
 			</Choice>
 			<Choice>
-				<Point>0</Point>
-				<Text>4</Text>
+				<Point type="float">0</Point>
+				<Text type="string">4</Text>
 			</Choice>
 			<Choice>
-				<Point>1</Point>
-				<Text>6</Text>
+				<Point type="float">1</Point>
+				<Text type="string">6</Text>
 			</Choice>
 			<Choice>
-				<Point>0</Point>
-				<Text>8</Text>
+				<Point type="float">0</Point>
+				<Text type="string">8</Text>
 			</Choice>
 		</Choices>
 	</Question>
 	<Question>
-		<Type>MultipleChoice</Type>
-		<Text>Evaluate 2 x 1.</Text>
+		<Type type="string">MultipleChoice</Type>
+		<Text type="string">Evaluate 2 x 1.</Text>
 		<Choices>
 			<Choice>
-				<Point>1</Point>
-				<Text>2</Text>
+				<Point type="float">1</Point>
+				<Text type="string">2</Text>
 			</Choice>
 			<Choice>
-				<Point>0</Point>
-				<Text>4</Text>
+				<Point type="float">0</Point>
+				<Text type="string">4</Text>
 			</Choice>
 			<Choice>
-				<Point>0</Point>
-				<Text>6</Text>
+				<Point type="float">0</Point>
+				<Text type="string">6</Text>
 			</Choice>
 			<Choice>
-				<Point>0</Point>
-				<Text>8</Text>
+				<Point type="float">0</Point>
+				<Text type="string">8</Text>
 			</Choice>
 		</Choices>
 	</Question>
-</QuestionSet>
+</PropertyList>
