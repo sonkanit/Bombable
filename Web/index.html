@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtrl">
+        <b>Question Editor</b><br>
+        <span style="float:right">
+            <button ng-click="export()">Export</button>
+            <input type="file" id="file" ng-model="file" name="file" onchange="angular.element(this).scope().import(file.files[0])">
+        </span>
+        <table style="border:1px solid black;">
+            <tbody>
+                <tr ng-repeat="question in questions track by $index" style="border:1px solid black;">
+                    <td style="vertical-align:top;">
+                        <b>{{($index + 1) + '. '}}</b>
+                    </td>
+                    <td>
+                        <input ng-model="question.text">
+                        <ul ng-if="question.type === 'MultipleChoice'">
+                            <li ng-repeat="choice in question.choices track by $index">
+                                <input ng-model="choice.text">
+                                <input ng-model="choice.point">
+                                <button ng-click="deleteChoice(question, $index)">X</button>
+                            </li>
+                        </ul>
+                        <button style="float:right" ng-click="addChoice(question)">+</button>
+                    </td>
+                    <td style="vertical-align:top;">
+                        <button ng-click="deleteQuestion($index)">X</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button ng-click="addQuestion()">New Question</button>
+    </div>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+            
+            var dummyChoice = {
+                point: 0,
+                text: 'Dummy Choice'
+            };
+
+            var dummyQuestion = {
+                type: 'MultipleChoice',
+                text: 'Dummy Question?',
+                choices: [
+                    dummyChoice
+                ]
+            };
+            
+            $scope.addChoice = function (question) {
+                question.choices.push(angular.copy(dummyChoice));
+            };
+            
+            $scope.addQuestion = function () {
+                $scope.questions.push(angular.copy(dummyQuestion));
+            };
+            
+            $scope.deleteChoice = function (question, index) {
+                question.choices = question.choices.splice(index, 1);
+            };
+            
+            $scope.deleteQuestion = function (index) {
+                $scope.questions.splice(index, 1);
+            };
+            
+            $scope.export = function () {
+                var XML = document.createElement('div');
+                var Node = document.createElementNS(null, 'PropertyList');
+                for(var i = 0; i < $scope.questions.length; i++) {
+                    var question = $scope.questions[i];
+                    var qNode = document.createElementNS(null, 'Question');
+
+                    var typeNode = document.createElementNS(null, 'Type');
+                    typeNode.innerHTML = question.type;
+                    typeNode.setAttribute('type', 'string');
+                    qNode.appendChild(typeNode);
+
+                    var textNode = document.createElementNS(null, 'Text');
+                    textNode.innerHTML = question.text;
+                    textNode.setAttribute('type', 'string');
+                    qNode.appendChild(textNode);
+                    
+                    var choicesNode = document.createElementNS(null, 'Choices');
+                    for(var j = 0; j < question.choices.length; j++) {
+                        var choice = question.choices[j];
+                        var choiceNode = document.createElementNS(null, 'Choice');
+                        var pointNode = document.createElementNS(null, 'Point');
+                        pointNode.setAttribute('type', 'float');
+                        pointNode.innerHTML = choice.point;
+                        choiceNode.appendChild(pointNode);
+                        var ctextNode = document.createElementNS(null, 'Text');
+                        ctextNode.setAttribute('type', 'string');
+                        ctextNode.innerHTML = choice.text;
+                        choiceNode.appendChild(ctextNode);
+                        choicesNode.appendChild(choiceNode);
+                    }
+                    qNode.appendChild(choicesNode);
+                    Node.appendChild(qNode);
+                }
+                XML.appendChild(Node);
+                var strXML = '<?xml version="1.0" encoding="UTF-8"?>' + XML.innerHTML;
+                
+                 //Save Dialog
+                var blob = new window.Blob([strXML], { type: 'text/xml;' });
+                var url = window.URL.createObjectURL(blob);
+                var anchor = window.document.createElement('a');
+                anchor.download = 'Beginner.xml';
+                anchor.href = url;
+                anchor.click();
+            };
+            
+            $scope.import = function (file) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+					var strXML = evt.target.result;
+					var parser = new DOMParser();
+					var doc = parser.parseFromString(strXML, "application/xml");
+					questionNodes = doc.getElementsByTagName('Question');
+					
+					$scope.questions.length = 0;
+					
+					for(var i = 0; i < questionNodes.length; i++) {
+						var qn = questionNodes[i];
+						var qt = qn.getElementsByTagName('Text')[0].innerHTML;
+						var choices = qn.getElementsByTagName('Choice');
+						var cs = [];
+						
+						for(var j = 0; j < choices.length; j++) {
+							var choice = choices[j];
+							var ct = choice.getElementsByTagName('Text')[0].innerHTML;
+							var pt = choice.getElementsByTagName('Point')[0].innerHTML;
+							cs.push({text: ct, point: pt});
+						}
+
+						$scope.questions.push({
+							type: 'MultipleChoice',
+							text: qt,
+							choices: cs
+						});
+					}
+					
+					$scope.$apply();
+                };
+				
+				reader.readAsText(file);
+            };
+            
+            $scope.questions = [ angular.copy(dummyQuestion) ];
+        });
+    </script>
+</body>
+</html>

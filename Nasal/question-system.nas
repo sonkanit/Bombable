@@ -8,8 +8,8 @@ var QuestionSystem = {
 		var file = getprop("/sim/fg-root") ~ "\\Question\\Beginner.xml";
 		var data = io.read_properties(file, "/QuestionSystem");
 
-		var x = 400;
-		var y = 300;
+		var x = 320;
+		var y = 240;
 		var dlg = canvas.Window.new([x,y], "dialog").set("title", "Question");
 		var my_canvas = dlg.createCanvas();
 		var root = my_canvas.createGroup();
@@ -46,6 +46,7 @@ var QuestionSystem = {
 
 		#choices
 		var choicesPath = "/QuestionSystem/Question[" ~ idx ~ "]/Choices";
+		print(choicesPath);
 		var choices = me.data.getNode(choicesPath).getChildren();
 		var numChoices = size(choices);
 		for(var i = 0; i < numChoices; i = i + 1) {
