@@ -86,5 +86,6 @@ var stopQuestioning = func {
 	___qs.stop();
 };
 
-setlistener("/sim/signals/nasal-dir-initialized", startQuestioning);
-startQuestioning();
+_setlistener("/sim/signals/nasal-dir-initialized", func {
+	settimer (func {startQuestioning();} , 10);
+});
